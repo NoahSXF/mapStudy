@@ -1,63 +1,110 @@
 package com.example.mapStudy.bean;
 
-import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
- * person
- *
- * @author
+ * @BelongsProject: mapstudy
+ * @BelongsPackage: com.example.mapstudy.pojo
+ * @Author: 99451
+ * @CreateTime: 2022-09-04  10:46
+ * @Description: TODO
+ * @Version: 1.0
  */
-@Data
-public class Person implements Serializable {
-    /**
-     * 姓名
-     */
+@Component
+@ConfigurationProperties(prefix = "person")
+public class Person {
     private String name;
+    private Integer age;
+    private Boolean happy;
+    private Date birth;
+    private Map<String, Object> maps;
+    private List<Object> list;
+    private Dog dog;
 
-    /**
-     * 年龄
-     */
-    private String age;
-
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    public boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-        if (getClass() != that.getClass()) {
-            return false;
-        }
-        Person other = (Person) that;
-        return (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-                && (this.getAge() == null ? other.getAge() == null : this.getAge().equals(other.getAge()));
+    public Person() {
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getAge() == null) ? 0 : getAge().hashCode());
-        return result;
+    public Person(String name, Integer age, Boolean happy, Date birth, Map<String, Object> maps, List<Object> list, Dog dog) {
+        this.name = name;
+        this.age = age;
+        this.happy = happy;
+        this.birth = birth;
+        this.maps = maps;
+        this.list = list;
+        this.dog = dog;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Boolean getHappy() {
+        return happy;
+    }
+
+    public void setHappy(Boolean happy) {
+        this.happy = happy;
+    }
+
+    public Date getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Date birth) {
+        this.birth = birth;
+    }
+
+    public Map<String, Object> getMaps() {
+        return maps;
+    }
+
+    public void setMaps(Map<String, Object> maps) {
+        this.maps = maps;
+    }
+
+    public List<Object> getList() {
+        return list;
+    }
+
+    public void setList(List<Object> list) {
+        this.list = list;
+    }
+
+    public Dog getDog() {
+        return dog;
+    }
+
+    public void setDog(Dog dog) {
+        this.dog = dog;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", name=").append(name);
-        sb.append(", age=").append(age);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", happy=" + happy +
+                ", birth=" + birth +
+                ", maps=" + maps +
+                ", list=" + list +
+                ", dog=" + dog +
+                '}';
     }
 }

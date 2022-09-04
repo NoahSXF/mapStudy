@@ -2,7 +2,10 @@ package com.example.mapStudy.controller;
 
 import com.example.mapStudy.bean.Person;
 import com.example.mapStudy.bean.PersonExample;
+import com.example.mapStudy.bean.Teacher;
+import com.example.mapStudy.bean.TeacherExample;
 import com.example.mapStudy.mapper.PersonDao;
+import com.example.mapStudy.mapper.TeacherDao;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +27,12 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/test")
-public class Test {
+public class TestController {
     @Resource
     private PersonDao personDao;
 
+    @Resource
+    private TeacherDao teacherDao;
     @Resource
     private RedisTemplate<Object, Object> redisTemplate;
 
@@ -42,10 +47,25 @@ public class Test {
     public Map<String, Object> selectPerson() {
         Map<String, Object> map = new HashMap<>(16);
         PersonExample person = new PersonExample();
-        person.setForUpdate(false);
         person.or().andNameEqualTo("张三");
         List<Person> people = personDao.selectByExample(person);
         map.put("result", people);
+        return map;
+    }
+
+    /**
+     * 查询mysql教师表
+     *
+     * @date 2022/9/5 0:42
+     * @return: java.util.Map<java.lang.String, java.lang.Object>
+     */
+    @GetMapping("/selectTeacher")
+    public Map<String, Object> selectTeacher() {
+        Map<String, Object> map = new HashMap<>(16);
+        TeacherExample teacherExample = new TeacherExample();
+        teacherExample.or().andNameEqualTo("李寻欢");
+        List<Teacher> teachers = teacherDao.selectByExample(teacherExample);
+        map.put("result", teachers);
         return map;
     }
 
@@ -58,9 +78,6 @@ public class Test {
     @GetMapping("/selectRedis")
     public Map<String, Object> selectRedis() {
         Map<String, Object> map = new HashMap<>(16);
-        Person person = new Person();
-        person.setName("张三");
-        person.setAge("18");
         int t = 100;
         for (int i = 0; i < t; i++) {
             redisTemplate.opsForValue().set("张三" + i, String.valueOf(t - i));

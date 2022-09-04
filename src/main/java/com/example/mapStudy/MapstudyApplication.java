@@ -5,11 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.example.mapstudy.mapper")
-public class MapstudyApplication {
+@MapperScan("com.example.mapStudy.mapper")
+public class MapStudyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MapstudyApplication.class, args);
+        SpringApplication.run(MapStudyApplication.class, args);
     }
 
 }
