@@ -1,2 +1,11 @@
-person:
-  maps: { k1: v1,k2: v2 }
+server:
+  port: 8081
+
+
+---
+server:
+  port:8082
+spring:
+  profiles:
+    active: dev
+
