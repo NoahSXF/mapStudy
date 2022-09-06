@@ -25,10 +25,10 @@ public @Data @Log class Car {
     private String model;
 
     public static void main(String... args) {
-        log.setLevel(Level.WARNING); 
+        log.setLevel(Level.WARNING);
         log.log(Level.INFO,log.getName());
         CarBuilder builder = Car.builder();
-        builder.name(builder.name);
+//        builder.name(builder.name);
     }
 
 
