@@ -50,6 +50,7 @@ public class TestController {
         person.or().andNameEqualTo("张三");
         List<Person> people = personDao.selectByExample(person);
         map.put("result", people);
+        map.put("result", people);
         return map;
     }
 
