@@ -3,6 +3,9 @@ package com.example.mapStudy.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author 99451
+ */
 public class PersonExample {
     protected String orderByClause;
 
