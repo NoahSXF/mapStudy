@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Log4j2
 public class DirectReceiver {
 
-    @RabbitListener(queues= "#{directQueue.name}")
+//    @RabbitListener(queues= "#{directQueue.name}")
     public void recvOne(String obj) {
         log.info("DirectReceiver, receive the queue msg:"+obj);
     }
