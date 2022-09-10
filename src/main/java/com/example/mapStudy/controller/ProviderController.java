@@ -1,10 +1,12 @@
-package com.example.mapStudy.provider;
+package com.example.mapStudy.controller;
 
 import com.example.mapStudy.config.RabbitDirectConfig;
+import com.example.mapStudy.provider.RabbitDirectSender;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Random;
@@ -45,14 +47,21 @@ public class ProviderController {
 
     @GetMapping("/send/{msg}")
     public String sendMqInfo(@PathVariable("msg") String msg) {
-        rabbitTemplate.convertAndSend(RabbitDirectConfig.DIRECT_EXCHANGE, RabbitDirectConfig.DIRECT_QUEUE, msg, new CorrelationData(UUID.randomUUID().toString()));
+        rabbitTemplate.convertAndSend(RabbitDirectConfig.DIRECT_EXCHANGE, RabbitDirectConfig.DIRECT_ROUTINGKEY, msg, new CorrelationData(UUID.randomUUID().toString()));
         return "it is msg:" + msg;
     }
 
     @GetMapping(value = "/sendFanout/{msg}")
     public String sendMqInfoFanout(@PathVariable("msg") String msg) {
-        rabbitTemplate.convertAndSend(RabbitDirectConfig.DIRECT_EXCHANGE + "fanout", RabbitDirectConfig.DIRECT_QUEUE + "fanout", msg, new CorrelationData(UUID.randomUUID().toString()));
+        rabbitTemplate.convertAndSend(RabbitDirectConfig.DIRECT_EXCHANGE + "fanout", RabbitDirectConfig.DIRECT_ROUTINGKEY + "fanout", msg, new CorrelationData(UUID.randomUUID().toString()));
         return "it is msg:" + msg;
+    }
+
+    @GetMapping(value = "/publisher/{msg}")
+    public void testDirectQueue(@PathVariable("msg") String msg) throws InterruptedException {
+        String exChangeName = "publisher.direct";
+//        rabbitTemplate.convertAndSend(queueName, "red", msg);
+        rabbitTemplate.convertAndSend(exChangeName, "yellow", msg);
     }
 
 }

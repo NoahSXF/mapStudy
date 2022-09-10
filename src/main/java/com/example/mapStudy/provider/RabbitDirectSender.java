@@ -36,6 +36,10 @@ public class RabbitDirectSender implements RabbitTemplate.ConfirmCallback,Rabbit
     @Autowired
     public RabbitDirectSender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
+        new RabbitTemplate.ConfirmCallback() {
+            @Override
+            public void confirm(CorrelationData correlationData, boolean ack, String cause) {}
+        };
         //这是是设置回调能收到发送到响应，confirm()在下面解释
         rabbitTemplate.setConfirmCallback(this);
     }
@@ -55,10 +59,10 @@ public class RabbitDirectSender implements RabbitTemplate.ConfirmCallback,Rabbit
         log.info(" 发送数据id:" + correlationData);
         if(ack){
             System.out.println("成功到达交换机");
-            log.info("{}成功到达交换机",correlationData.getId());
+//            log.info("{}成功到达交换机",correlationData.getId());
         }else{
             System.out.println("未成功到达交换机，原因："+cause);
-            log.info("{}未成功到达交换机，原因：{}",correlationData.getId(),cause);
+//            log.info("{}未成功到达交换机，原因：{}",correlationData.getId(),cause);
         }
     }
 

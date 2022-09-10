@@ -7,8 +7,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.HashMap;
-
 /**
  * rabbitmq配置类
  * @BelongsProject: mapStudy
@@ -22,7 +20,7 @@ import java.util.HashMap;
 public class RabbitDirectConfig {
     public final static String DIRECT_QUEUE = "sxfQueue";
     public final static String DIRECT_EXCHANGE = "sxfExchange";
-    public static final String DIRECT_ROUTINGKEY = "directRoutingKey";
+    public static final String DIRECT_ROUTINGKEY = "xsfRoutingKey";
 
     /**
      * 交换机
@@ -55,6 +53,6 @@ public class RabbitDirectConfig {
      */
     @Bean
     public Binding binding() {
-        return BindingBuilder.bind(directQueue()).to(defaultExchange()).with(DIRECT_QUEUE);
+        return BindingBuilder.bind(directQueue()).to(defaultExchange()).with(DIRECT_ROUTINGKEY);
     }
 }
