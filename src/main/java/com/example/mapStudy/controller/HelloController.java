@@ -45,12 +45,6 @@ public class HelloController {
         list.add(new Car());
         String s2 = JSON.toJSONString(list);
         System.out.println(s2);
-
-        /**
-         * 数字 字符串 对象 数组 （false true null）
-         */
-        JSONObject.
-
     }
 
 }

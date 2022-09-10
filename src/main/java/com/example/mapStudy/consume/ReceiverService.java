@@ -9,7 +9,6 @@ package com.example.mapStudy.consume;
  * @Version: 1.0
  */
 
-import com.example.mapStudy.config.RabbitDirectConfig;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -31,7 +30,7 @@ public class ReceiverService {
      * @Param channel
      * @return: void
      */
-    @RabbitListener(queues = RabbitDirectConfig.DIRECT_QUEUE)
+//    @RabbitListener(queues = RabbitDirectConfig.DIRECT_QUEUE)
     public void receiveMsg(Message message, Channel channel) {
         // 消息标识
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
@@ -41,7 +40,7 @@ public class ReceiverService {
             System.out.println("mess = " + mess);
 //            int l=2/2/0;
             //  手动确认签收 第一个参数是消息标记 第二个参数fasle 只确认当前消息，true表示之前所有的消息都确认成功
-            channel.basicAck(deliveryTag, false);
+//            channel.basicAck(deliveryTag, false);
         } catch (Exception e) {
             try {
                 // 标示签收失败，再次放入队列中  第三个参数 requeue 再次放入队列

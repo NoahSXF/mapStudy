@@ -49,10 +49,22 @@ public class RabbitDirectConfig {
 
     /**
      * 绑定消息队列到交换机上
+     *
      * @return Binding
      */
     @Bean
-    public Binding binding() {
+    public Binding binding1() {
         return BindingBuilder.bind(directQueue()).to(defaultExchange()).with(DIRECT_ROUTINGKEY);
     }
+
+    /**
+     * 绑定消息队列到交换机上
+     *
+     * @return Binding
+     */
+    @Bean
+    public Binding binding2() {
+        return BindingBuilder.bind(new Queue(DIRECT_QUEUE + "fanout", true)).to(new DirectExchange(DIRECT_EXCHANGE, false, false)).with(DIRECT_ROUTINGKEY + "fanout");
+    }
+
 }
