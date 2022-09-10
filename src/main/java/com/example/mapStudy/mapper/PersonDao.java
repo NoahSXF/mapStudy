@@ -7,6 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author mapei
+ */
 @Mapper
 public interface PersonDao {
     long countByExample(PersonExample example);

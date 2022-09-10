@@ -1,8 +1,7 @@
 package com.example.mapStudy.consume;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.example.mapStudy.config.DirectRabbitConfig;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 
@@ -22,12 +21,27 @@ public class DirectReceiver {
  * 消费者
  * @author mapei
  */
-@Component
 //@RabbitListener(queues = "MapQueue")
+@Component
 public class DirectReceiver {
-//    @RabbitHandler
+    /*@RabbitListener(queues = DirectRabbitConfig.EMAIL_QUEUE)*/
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(DirectRabbitConfig.EMAIL_QUEUE),
+            exchange = @Exchange("fanout-order-exchange"),
+            key={"1","50"}
+    ))
     public void receiver(String message) {
 
-        System.out.println("DirectReceiver消费者收到消息: " + message.toString());
+        System.out.println("EMAIL_QUEUE消费者收到消息: " + message.toString());
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(DirectRabbitConfig.WECHAT_QUEUE),
+            exchange = @Exchange("fanout-order-exchange"),
+            key={"2","50"}
+    ))
+    public void receiver1(String message) {
+
+        System.out.println("WECHAT_QUEUE消费者收到消息: " + message.toString());
     }
 }
