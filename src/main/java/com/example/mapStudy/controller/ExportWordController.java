@@ -2,13 +2,14 @@ package com.example.mapStudy.controller;
 
 import com.example.mapStudy.utils.WordUtil;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ import java.util.Map;
 public class ExportWordController {
 
     @RequestMapping("/test")
-    public void test(HttpServletResponse response) throws Exception {
-        Map<String, Object> params = new HashMap<>();
+    public void test() throws Exception {
+        Map<String, Object> params = new HashMap<>(16);
         params.put("maven", "maven");
         params.put("svn", "svn");
         params.put("name", "张三");
@@ -38,16 +39,16 @@ public class ExportWordController {
         params.put("work", "擦车");
         params.put("date", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
         params.put("tableList", getTableList());
-        File file = new File("C:\\template\\temple.docx");
-        FileInputStream is = new FileInputStream(file);
+        InputStream is = this.getClass().getResourceAsStream("/temple/temple.docx");
+        assert is != null;
         XWPFDocument doc = new XWPFDocument(is);
         WordUtil.replaceInPara(doc, params);
         WordUtil.replaceInTable(doc, params);
         WordUtil.replaceInTable2(doc, (List<String[]>) params.get("tableList"), 0);
-        File file2 = new File("C:\\template\\temple2.docx");
+        Resource resource = new DefaultResourceLoader().getResource("/temple/temple.docx");
+        File file2 = resource.getFile();
         FileOutputStream os = new FileOutputStream(file2);
         doc.write(os);
-
         WordUtil.close(os);
         WordUtil.close(is);
     }
