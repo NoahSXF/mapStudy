@@ -1,8 +1,10 @@
 package com.example.mapStudy.consume;
 
 import com.example.mapStudy.config.DirectRabbitConfig;
-import org.springframework.amqp.rabbit.annotation.*;
-import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 
 /*
@@ -22,7 +24,7 @@ public class DirectReceiver {
  * @author mapei
  */
 //@RabbitListener(queues = "MapQueue")
-@Component
+//@Component
 public class DirectReceiver {
     /*@RabbitListener(queues = DirectRabbitConfig.EMAIL_QUEUE)*/
     @RabbitListener(bindings = @QueueBinding(

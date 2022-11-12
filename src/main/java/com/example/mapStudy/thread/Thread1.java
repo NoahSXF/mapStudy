@@ -3,6 +3,7 @@ package com.example.mapStudy.thread;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @BelongsProject: mapStudy
@@ -36,7 +37,7 @@ public class Thread1 {
         //执行任务
         for (int i = 0; i < 10; i++) {
             int index = i;
-            pool.execute(() -> System.out.println("i:" + index + "      execute!"));
+            pool.execute(() -> System.out.println("i:" + index + "      execute! Thread : " + Thread.currentThread().getName()));
         }
         //关闭线程池
         pool.shutdown();
@@ -68,6 +69,23 @@ public class Thread1 {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        }
+    }
+
+    public int getNum() {
+        System.out.println(num.decrementAndGet());
+        return num.decrementAndGet();
+    }
+
+    private static volatile AtomicInteger num = new AtomicInteger(15);
+
+    @Test
+    public void Test3() {
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(4, 4, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(100));
+        for (int i = 0; i < 1000; i++) {
+            pool.execute(() -> {
+                getNum();
+            });
         }
     }
 }

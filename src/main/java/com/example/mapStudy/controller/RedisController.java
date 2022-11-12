@@ -30,8 +30,9 @@ public class RedisController {
     public Map<String, Object> selectRedisObject() {
         Map<String, Object> map = new HashMap<>(16);
         Car car = new Car("东风", "SUV");
-        redisTemplate.opsForValue().set("car", car);
-        Object o = redisTemplate.opsForValue().get("car");
+//        redisTemplate.opsForValue().set("car", car);
+        Car o = (Car) redisTemplate.opsForValue().get("car");
+//        Car car1 = JSONObject.parseObject(o.toString(), Car.class);
         map.put("car", o);
         return map;
     }

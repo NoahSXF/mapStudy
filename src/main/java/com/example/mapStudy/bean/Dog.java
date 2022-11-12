@@ -18,6 +18,26 @@ public class Dog {
     @Value("3")
     private Integer age;
 
+    private String userName;
+
+    private int userAge;
+
+    public int getUserAge() {
+        return userAge;
+    }
+
+    public void setUserAge(int userAge) {
+        this.userAge = userAge;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public Dog() {
 
     }
@@ -42,11 +62,14 @@ public class Dog {
         this.age = age;
     }
 
+
     @Override
     public String toString() {
         return "Dog{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                ", userName='" + userName + '\'' +
+                ", userAge=" + userAge +
                 '}';
     }
 }

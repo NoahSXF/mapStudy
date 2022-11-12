@@ -1,9 +1,6 @@
 package com.example.mapStudy.controller;
 
-import com.example.mapStudy.bean.Person;
-import com.example.mapStudy.bean.PersonExample;
-import com.example.mapStudy.bean.Teacher;
-import com.example.mapStudy.bean.TeacherExample;
+import com.example.mapStudy.bean.*;
 import com.example.mapStudy.mapper.PersonDao;
 import com.example.mapStudy.mapper.TeacherDao;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,19 +68,48 @@ public class TestController {
     }
 
     /**
-     * 测试redis连接
+     * 测试redis连接(放入string，string)
      *
      * @date 2022/9/4 20:54
      * @return: java.util.Map<java.lang.String, java.lang.Object>
      */
-    @GetMapping("/selectRedis")
-    public Map<String, Object> selectRedis() {
+    @GetMapping("/selectRedisString")
+    public Map<String, Object> selectRedisString() {
         Map<String, Object> map = new HashMap<>(16);
         int t = 100;
         for (int i = 0; i < t; i++) {
-            redisTemplate.opsForValue().set("张三" + i, String.valueOf(t - i));
-            map.put(String.valueOf(i), t - i);
+//            redisTemplate.opsForValue().set("张三" + i, String.valueOf(t - i));
+            Object o = redisTemplate.opsForValue().get("张三" + i);
+            map.put("张三" + i, o);
         }
+        return map;
+    }
+
+    /**
+     * 测试redis连接(放入string,Object)
+     *
+     * @date 2022/9/10 21:25
+     * @return: java.util.Map<java.lang.String, java.lang.Object>
+     */
+    @GetMapping("/selectRedisObject")
+    public Map<String, Object> selectRedisObject() {
+        Map<String, Object> map = new HashMap<>(16);
+        Car car = new Car("东风", "SUV");
+        redisTemplate.opsForValue().set("car", car);
+        Object o = redisTemplate.opsForValue().get("car");
+        map.put("car", o);
+        return map;
+    }
+
+    @GetMapping("/selectRedisList")
+    public Map<String, Object> selectRedisList() {
+        Map<String, Object> map = new HashMap<>(16);
+        List<Object> list = new ArrayList<>();
+        Car car = new Car("东风", "SUV");
+        list.add(car);
+        redisTemplate.opsForValue().set("car", list);
+        Object o = redisTemplate.opsForValue().get("car");
+        map.put("car", o);
         return map;
     }
 }
