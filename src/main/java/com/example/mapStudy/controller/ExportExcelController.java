@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +30,7 @@ import java.util.List;
 public class ExportExcelController {
     @RequestMapping("/test")
     public void test() throws Exception {
-        Demo demo = new Demo();
-        Demo demo1 = new Demo();
-        List<Demo> demos = new ArrayList<>();
-        demo.setName("111");
-        demo.setAge("222");
-        demo.setPhone("333");
-        demos.add(demo);
-        demo1.setName("222");
-        demo1.setAge("333");
-        demo1.setPhone("444");
-        demos.add(demo1);
+        List<Demo> demos = getDemoList();
         InputStream is = this.getClass().getResourceAsStream("/temple/temple.xlsx");
         assert is != null;
         XSSFWorkbook workbook = new XSSFWorkbook(is);
@@ -81,10 +70,12 @@ public class ExportExcelController {
         WordUtil.close(is);
     }
 
-    @RequestMapping("/test2")
-    public void test2() throws IOException {
-        Resource resource = new DefaultResourceLoader().getResource("/temple/temple.xlsx");
-        resource.getFile();
-        System.out.println(resource.getURL());
+    private List<Demo> getDemoList() {
+        Demo demo = new Demo("111", "222", "333");
+        Demo demo1 = new Demo("222", "333", "444");
+        List<Demo> demos = new ArrayList<>();
+        demos.add(demo);
+        demos.add(demo1);
+        return demos;
     }
 }

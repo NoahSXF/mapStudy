@@ -17,5 +17,14 @@ public class Demo {
     private String age;
 
     private String phone;
+
+    public Demo(String name, String age, String phone) {
+        this.name = name;
+        this.age = age;
+        this.phone = phone;
+    }
+
+    public Demo() {
+    }
 }
 
