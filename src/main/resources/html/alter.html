@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .tips {
+            background-image: url(img/nnTips.png);
+            left: 63%;
+            top: 65%;
+            text-align: center;
+            display: none;
+            width: 300px;
+            height: 170px;
+            margin: -201px 0 0 -272px;
+            position: absolute;
+        }
+
+        .tips h3 {
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        <li>
+            <button onclick="alertWin('这个是测试弹框 你咬我啊')">测试弹框</button>
+        </li>
+    </ul>
+</div>
+<div id="test" class="tips" onclick="closeWin('test')">
+    <h3 id="tips"></h3>
+</div>
+</body>
+<script>
+    wait = false;
+
+    /*动态输入字符的*/
+    function alertWin($msg) {
+        document.getElementById("tips").innerHTML = $msg;
+        showWin("test");
+    }
+
+    //    按需求弹出框的
+    function showWin($winId) {
+        if (wait == false) {
+            var $wList = ["test"];
+            for (var j = 0; j < $wList.length; j++) {
+                if ($wList[j] != $winId) document.getElementById($wList[j]).style.display = "none";
+            }
+        } else wait = true;
+        document.getElementById($winId).style.display = "block";
+    }
+
+    //关闭弹窗
+    function closeWin($winId) {
+        wait = false;
+        document.getElementById("tips").innerHTML = '';
+        document.getElementById($winId).style.display = "none";
+
+    }
+
+</script>
+
+</html>
