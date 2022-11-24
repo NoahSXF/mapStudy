@@ -1,7 +1,8 @@
 package com.example.mapStudy.controller;
 
 import com.example.mapStudy.bean.Password;
-import com.example.mapStudy.mapper.PasswordMapper;
+import com.example.mapStudy.service.PasswordServer;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -27,27 +28,28 @@ public class PasswordController {
     static int flag = 1;
 
     @Resource
-    PasswordMapper mapper;
+    PasswordServer service;
 
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    @RequestMapping(value = {"/getPassword/{key}", "/getPassword/"})
-    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key) {
+    @RequestMapping(value = {"/getPassword/{page}/{size}/{key}", "/getPassword/{page}/{size}/"})
+    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) {
         Map<String, Object> map = new HashMap<>(16);
         Password password = new Password();
         password.setKey(key);
-        List<Password> list = mapper.selectByPassword(password);
+        PageInfo<Password> passwordPageInfo = service.selectByPassword(password, Integer.parseInt(page), Integer.parseInt(size));
+        List<Password> list = passwordPageInfo.getList();
         flag = 1;
         list.forEach(x -> x.setPassword(decode(x.getPassword())));
-        map.put("result", list);
+        map.put("pageInfo", passwordPageInfo);
         if (!StringUtils.isEmpty(key) && !CollectionUtils.isEmpty(list)) {
             threadPoolTaskExecutor.execute(() -> {
                 list.forEach(x -> {
                     Password entity = new Password();
                     entity.setId(x.getId());
                     entity.setIndex(x.getIndex() + 1);
-                    mapper.update(entity);
+                    service.update(entity);
                 });
                 log.info("线程执行完毕");
             });
@@ -62,7 +64,7 @@ public class PasswordController {
         password.setUpdateTime(new Date());
         password.setPassword(encode(password.getPassword()));
         password.setId(UUID.randomUUID().toString().replace("-", ""));
-        int insert = mapper.insert(password);
+        int insert = service.insert(password);
         if (insert == 1) {
             map.put("result", true);
             flag = 2;
@@ -77,7 +79,7 @@ public class PasswordController {
         Map<String, Object> map = new HashMap<>(16);
         password.setUpdateTime(new Date());
         password.setPassword(encode(password.getPassword()));
-        int update = mapper.update(password);
+        int update = service.update(password);
         if (update == 1) {
             map.put("result", true);
             flag = 2;
@@ -111,7 +113,7 @@ public class PasswordController {
 
     private String decode(String s) {
         if (StringUtils.isEmpty(s)) {
-            return null;
+            return "";
         }
         byte[] sBytes = Base64.getDecoder().decode(s);
         for (int i = 0; i < sBytes.length; i++) {

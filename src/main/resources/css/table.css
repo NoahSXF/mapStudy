@@ -6,9 +6,11 @@ table.hovertable {
     border-color: #999999;
     border-collapse: collapse;
     margin: 0;
-    width: 100%;
     position: absolute;
     top: 20%;
+    table-layout: fixed;
+    overflow: auto;
+    width: 98%;
 }
 
 table.hovertable th {
@@ -17,6 +19,8 @@ table.hovertable th {
     padding: 8px;
     border-style: solid;
     border-color: #a9c6c9;
+    position: sticky;
+    top: 0;
 }
 
 table.hovertable tr {
