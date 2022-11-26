@@ -1,0 +1,216 @@
+<IDOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>练习</title>
+        <style>
+            canvas {
+                border: 1px solid #000;
+                display: block;
+                margin: auto;
+            }
+        </style>
+    </head>
+
+    <body>
+    <!--这个是htm15中新增的标签提供了一个画板,在这个回板上使用js进行绘制图像-->
+    <canvas id="canvas" width="500" height="500"></canvas>
+
+    <script>
+        var canvas = document.getElementById("canvas");
+        //设置画笔的类型2d 3d
+        //设置画布的类型为2d
+        var context = canvas.getContext("2d");
+        //1获取画布的宽度
+        var width = canvas.width;
+        //console.log(width);
+        var r = width / 2;
+
+        function fun() {
+            context.save();
+            //重新映射画布的0,8点
+            context.translate(r, r);//将250,250的点映射成0,0点
+            //1.绘制表盘
+            //开始一条路径
+            context.beginPath();
+            //绘制圆的方法
+            context.arc(0, 0, r - 5, 0, Math.PI * 2, false);
+            //结束一条路径
+            context.closePath();
+            //设置绘制的样式
+            context.lineWidth = "10";
+            //使用线条进行绘制
+            context.stroke();
+
+
+            //2.绘制表盘上面的小圆点
+            //绘制小圆点
+            //一个整圆的弧度/ 60每一个小圆点所对应的弧度
+            var rad = Math.PI * 2 / 60;
+            //一共有60个小圆点，循环6o次
+            for (var i = 0; i < 60; i++) {
+                //开始一条路径
+                context.beginPath();
+                //使用勾股定理求出对应的x,y的坐标
+                var x = Math.sin(rad * i) * (r - 15);
+                var y = Math.cos(rad * i) * (r - 15);
+                //绘制小圆点的函数
+                context.arc(x, y, 3, 0, Math.PI * 2, false);
+                if (i % 5 == 0) {
+                    //根据不同的点位设置不同的颜色,整数点的时侯颜色设置深一些
+                    context.fillStyle = "#000";
+                } else {
+                    context.fillStyle = "#ddd";
+                }
+                context.fill();
+            }
+
+
+            //3.绘制数字
+            var hoursNum = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2];
+            //只需要12个数字,对应的12点的位置即可
+            var rad = Math.PI * 2 / 12;
+            //循环12次分别进行绘制
+            for (var i = 0; i < hoursNum.length; i++) {
+                //获取到对应的x,y坐标
+                var y = Math.sin(rad * i) * (r - 30);
+                var x = Math.cos(rad * i) * (r - 30);
+                //设置字体的属性
+                context.font = "18px Arial";
+                //设置字体的颜色
+                context.fillStyle = "#000";
+                //设置字体的对齐方式
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                //直接开始绘制字体
+                context.fillText(hoursNum[i], x, y);
+            }
+
+        }
+
+        //4.绘制时针的函数
+        function drawHour(hour, minu) {
+            //没有旋转的环境进行保存
+            context.save();
+            //得到每个小时所对应的弧度
+            var rad = Math.PI * 2 / 12 * hour;
+            //得到分钟影响的小时的弧度
+            var rad1 = Math.PI * 2 / 12 / 60 * minu;
+            //开始一条路径
+            context.beginPath();
+            //开始旋转
+            context.rotate(rad + rad1);
+            //开始的坐标
+            context.moveTo(0, 10);
+            //经过的坐标
+            context.lineTo(0, -r / 2 + 20);
+            //线条未端的样式
+            context.lineCap = "round";//如果加了线条末端样式,就不能加结束路径
+            //结束一条路径
+            //context.closePath();
+            //设置线条的宽度
+            context.lineWidth = "8";
+            //使用线条的方式进行绘制
+            context.stroke();
+            //回到之前所保存的环境，成对出现的
+            context.restore();
+        }
+
+
+        //绘制分针的函数
+        function drawMinu(minu) {
+            //没有旋转的环境进行保存
+            context.save();
+            //得到每个分钟所对应的弧度
+            var rad = Math.PI * 2 / 60 * minu;
+            //开始一条路径
+            context.beginPath();
+            //开始旋转
+            context.rotate(rad);
+            //开始的坐标
+            context.moveTo(0, 15);
+            //经过的坐标
+            context.lineTo(0, -r / 2 - 20);
+            //线条末端的样式
+            context.lineCap = "round";//如果加了线条末端样式,就不能加结束路径
+            //结束一条路径
+            //context.closePath();
+            //设置线条的宽度
+            context.lineWidth = "6";
+            //使用线条的方式进行绘制
+            context.stroke();
+
+            //回到之前所保存的环境，成对出现的
+            context.restore();
+        }
+
+
+        //秒针
+        function drawSeco(seco) {
+            //没有旋转的环境进行保存
+            context.save();
+            //得到每个分钟所对应的弧度
+            var rad = Math.PI * 2 / 60 * seco;
+            //开始一条路径
+            context.beginPath();
+            //开始旋转
+            context.rotate(rad);
+            //开始的坐标
+            context.moveTo(2, 25);
+            //经过的坐标
+            context.lineTo(1, -r / 2 + 10);
+            context.lineTo(-1, -r + 10);
+            context.lineTo(-2, 25);
+            context.lineWidth = "6";
+            //设置颜色
+            context.fillStyle = "#f00";
+            //使用线条的方式进行绘制
+            context.fill();
+
+            //回到之前所保存的环境，成对出现的
+            context.restore();
+
+        }
+
+        //中心圆点
+        function drawDot() {
+            context.beginPath();
+            context.arc(0, 0, 5, 0, Math.PI * 2, false);
+            context.closePath();
+            context.fillStyle = "#fff";
+            context.fill();
+        }
+
+        //清除
+        function clear() {
+            var Tools = document.getElementById("canvas");
+            console.log("2");
+            var ss = Tools.getContext("2d");
+            ss.clearRect(0, 0, 500, 500);
+        }
+
+        setInterval(function () {
+            context.restore();
+            //表盘的基础函数调用
+            clear();
+            fun();
+
+            var date = new Date();
+            var hour = date.getHours();
+            var minu = date.getMinutes();
+            var seco = date.getSeconds();
+            if (hour > 12) {
+                hour = hour % 12;
+            }
+            //调用时针的函数
+            drawHour(hour, minu);
+            //调用分针的函数
+            drawMinu(minu);
+            //调用秒针的函数
+            drawSeco(seco);
+            drawDot();
+        }, 1000);
+    </script>
+    </body>
+    </html>
