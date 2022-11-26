@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapStudy.mapper.IpMapper">
+    <resultMap id="BaseResultMap" type="com.example.mapStudy.bean.Ip">
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.example.mapStudy.bean.Ip">
+        insert into ip (ip)
+        values (#{ip,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.mapStudy.bean.Ip">
+        insert into ip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                ip,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectIp" resultMap="BaseResultMap">
+        select *
+        from ip
+    </select>
+</mapper>

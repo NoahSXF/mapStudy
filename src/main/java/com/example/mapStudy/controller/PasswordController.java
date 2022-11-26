@@ -1,6 +1,7 @@
 package com.example.mapStudy.controller;
 
 import com.example.mapStudy.bean.Password;
+import com.example.mapStudy.mapper.IpMapper;
 import com.example.mapStudy.service.PasswordServer;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -8,8 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -33,9 +37,13 @@ public class PasswordController {
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
+    @Resource
+    private IpMapper mapper;
+
 
     @RequestMapping(value = {"/getPassword/{page}/{size}/{key}", "/getPassword/{page}/{size}/"})
-    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) {
+    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) throws Exception {
+        String ip = getRemortIP();
         Map<String, Object> map = new HashMap<>(16);
         Password password = new Password();
         password.setKey(key);
@@ -125,5 +133,22 @@ public class PasswordController {
             }
         }
         return new String(sBytes);
+    }
+
+    /**
+     * 获取请求的ip
+     *
+     * @date 2022/11/26 20:07
+     * @return: java.lang.String
+     */
+    private String getRemortIP() throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String ip = "";
+        if (request.getHeader("x-forwarded-for") == null) {
+            ip = request.getRemoteAddr();
+        } else {
+            ip = request.getHeader("x-forwarded-for");
+        }
+        return ip;
     }
 }

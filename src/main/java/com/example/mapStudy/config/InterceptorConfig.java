@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 //@Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
-    @Override
+//    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogCostInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);

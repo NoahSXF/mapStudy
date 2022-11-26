@@ -13,7 +13,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
  */
 //@Configuration
 public class FilterConfig {
-    //    @Bean
+//    @Bean
     public FilterRegistrationBean registrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new MyFilter());
         filterRegistrationBean.addUrlPatterns("/*");

@@ -17,6 +17,6 @@ public class IndexController {
     @RequestMapping("/")
     public String login(Model model) {
 //        return "request mapping passwordList.html";
-        return "index.html";
+        return "passwordList.html";
     }
 }
