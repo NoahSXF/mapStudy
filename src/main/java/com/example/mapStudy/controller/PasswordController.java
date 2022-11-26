@@ -33,6 +33,7 @@ public class PasswordController {
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
+
     @RequestMapping(value = {"/getPassword/{page}/{size}/{key}", "/getPassword/{page}/{size}/"})
     public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) {
         Map<String, Object> map = new HashMap<>(16);

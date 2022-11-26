@@ -1,7 +1,6 @@
 package com.example.mapStudy.config;
 
 import com.example.mapStudy.interceptor.LogCostInterceptor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -13,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @Description: 注册拦截器
  * @Version: 1.0
  */
-@Configuration
+//@Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
     @Override
