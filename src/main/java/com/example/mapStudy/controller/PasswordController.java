@@ -1,5 +1,6 @@
 package com.example.mapStudy.controller;
 
+import com.example.mapStudy.bean.Ip;
 import com.example.mapStudy.bean.Password;
 import com.example.mapStudy.mapper.IpMapper;
 import com.example.mapStudy.service.PasswordServer;
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @BelongsProject: mapStudy
@@ -44,17 +46,27 @@ public class PasswordController {
     @RequestMapping(value = {"/getPassword/{page}/{size}/{key}", "/getPassword/{page}/{size}/"})
     public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) throws Exception {
         String ip = getRemortIP();
+        List<Ip> ips = mapper.selectIp();
         Map<String, Object> map = new HashMap<>(16);
+        PageInfo<Password> passwordPageInfo = new PageInfo<>();
+        List<Password> list = new ArrayList<>();
+        passwordPageInfo.setList(list);
+        map.put("pageInfo", passwordPageInfo);
+        List<String> ipList = ips.stream().map(Ip::getIp).collect(Collectors.toList());
+        if (!ipList.contains(ip)) {
+            return map;
+        }
         Password password = new Password();
         password.setKey(key);
-        PageInfo<Password> passwordPageInfo = service.selectByPassword(password, Integer.parseInt(page), Integer.parseInt(size));
-        List<Password> list = passwordPageInfo.getList();
+        passwordPageInfo = service.selectByPassword(password, Integer.parseInt(page), Integer.parseInt(size));
+        list = passwordPageInfo.getList();
         flag = 1;
         list.forEach(x -> x.setPassword(decode(x.getPassword())));
         map.put("pageInfo", passwordPageInfo);
         if (!StringUtils.isEmpty(key) && !CollectionUtils.isEmpty(list)) {
+            List<Password> finalList = list;
             threadPoolTaskExecutor.execute(() -> {
-                list.forEach(x -> {
+                finalList.forEach(x -> {
                     Password entity = new Password();
                     entity.setId(x.getId());
                     entity.setIndex(x.getIndex() + 1);

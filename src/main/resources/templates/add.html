@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     <script type="text/javascript" src="js/randomPassword.js" th:src="@{/js/randomPassword.js}"></script>
     <script type="text/javascript" src="js/formUtil.js" th:src="@{/js/formUtil.js}"></script>
+    <script type="text/javascript" src="js/common.js" th:src="@{/js/common.js}"></script>
     <link rel="stylesheet" href="css/body.css" th:href="@{/css/body.css}">
     <link rel="stylesheet" href="css/button.css" th:href="@{/css/button.css}">
     <script type="text/javascript">
@@ -71,7 +72,7 @@
         let data = JSON.stringify(passwordForm);
         console.log(data)
         $.post(
-            "http://192.168.1.13:8080/insertPassword",
+            "http://" + ip + port + "/insertPassword",
             data, function (data) {
                 if (data.result) {
                     Swal.fire(
