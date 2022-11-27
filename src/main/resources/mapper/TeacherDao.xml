@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapStudy.mapper.TeacherDao">
-    <resultMap id="BaseResultMap" type="com.example.mapStudy.bean.Teacher">
+<mapper namespace="com.example.mapStudy.dao.TeacherDao">
+    <resultMap id="BaseResultMap" type="com.example.mapStudy.entity.Teacher">
         <id column="teacher_id" jdbcType="VARCHAR" property="id"/>
         <result column="teacher_name" jdbcType="VARCHAR" property="name"/>
         <result column="teacher_classNo" jdbcType="INTEGER" property="classNo"/>
@@ -69,7 +69,7 @@
     <sql id="Base_Column_List">
         teacher.id as teacher_id, teacher.`name` as `teacher_name`, teacher.classNo as teacher_classNo
     </sql>
-    <select id="selectByExample" parameterType="com.example.mapStudy.bean.TeacherExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.example.mapStudy.entity.TeacherExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
@@ -105,18 +105,18 @@
         from teacher
         where id = #{id,jdbcType=VARCHAR}
     </delete>
-    <delete id="deleteByExample" parameterType="com.example.mapStudy.bean.TeacherExample">
+    <delete id="deleteByExample" parameterType="com.example.mapStudy.entity.TeacherExample">
         delete from teacher teacher
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.mapStudy.bean.Teacher"
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.mapStudy.entity.Teacher"
             useGeneratedKeys="true">
         insert into teacher (`name`, classNo)
         values (#{name,jdbcType=VARCHAR}, #{classNo,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.mapStudy.bean.Teacher"
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.mapStudy.entity.Teacher"
             useGeneratedKeys="true">
         insert into teacher
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -136,7 +136,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.example.mapStudy.bean.TeacherExample" resultType="java.lang.Long">
+    <select id="countByExample" parameterType="com.example.mapStudy.entity.TeacherExample" resultType="java.lang.Long">
         select count(*) from teacher teacher
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
@@ -168,7 +168,7 @@
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
-    <update id="updateByPrimaryKeySelective" parameterType="com.example.mapStudy.bean.Teacher">
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.mapStudy.entity.Teacher">
         update teacher
         <set>
             <if test="name != null">
@@ -180,7 +180,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.example.mapStudy.bean.Teacher">
+    <update id="updateByPrimaryKey" parameterType="com.example.mapStudy.entity.Teacher">
         update teacher
         set `name`  = #{name,jdbcType=VARCHAR},
             classNo = #{classNo,jdbcType=INTEGER}

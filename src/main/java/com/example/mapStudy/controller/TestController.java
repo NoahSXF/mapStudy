@@ -1,8 +1,8 @@
 package com.example.mapStudy.controller;
 
-import com.example.mapStudy.bean.*;
-import com.example.mapStudy.mapper.PersonDao;
-import com.example.mapStudy.mapper.TeacherDao;
+import com.example.mapStudy.dao.PersonDao;
+import com.example.mapStudy.dao.TeacherDao;
+import com.example.mapStudy.entity.*;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

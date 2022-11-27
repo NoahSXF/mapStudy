@@ -1,6 +1,6 @@
 package com.example.mapStudy.controller;
 
-import com.example.mapStudy.bean.Car;
+import com.example.mapStudy.entity.Car;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

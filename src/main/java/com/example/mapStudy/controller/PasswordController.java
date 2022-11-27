@@ -1,20 +1,23 @@
 package com.example.mapStudy.controller;
 
-import com.example.mapStudy.bean.Ip;
-import com.example.mapStudy.bean.Password;
-import com.example.mapStudy.mapper.IpMapper;
+import com.example.mapStudy.dao.IpMapper;
+import com.example.mapStudy.entity.Ip;
+import com.example.mapStudy.entity.Password;
 import com.example.mapStudy.service.PasswordServer;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,14 +45,18 @@ public class PasswordController {
     @Resource
     private IpMapper mapper;
 
+    @Resource
+    private RedisTemplate redisTemplate;
+
 
     @RequestMapping(value = {"/getPassword/{page}/{size}/{key}", "/getPassword/{page}/{size}/"})
-    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable(value = "page", required = true) String page, @PathVariable(value = "size", required = true) String size) throws Exception {
+    public Map<String, Object> getPassWord(@PathVariable(value = "key", required = false) String key, @PathVariable("page") @NotNull String page, @PathVariable("size") @NotNull String size) throws Exception {
         String ip = getRemortIP();
         List<Ip> ips = mapper.selectIp();
         Map<String, Object> map = new HashMap<>(16);
         PageInfo<Password> passwordPageInfo = new PageInfo<>();
         List<Password> list = new ArrayList<>();
+
         passwordPageInfo.setList(list);
         map.put("pageInfo", passwordPageInfo);
         List<String> ipList = ips.stream().map(Ip::getIp).collect(Collectors.toList());
@@ -66,12 +73,7 @@ public class PasswordController {
         if (!StringUtils.isEmpty(key) && !CollectionUtils.isEmpty(list)) {
             List<Password> finalList = list;
             threadPoolTaskExecutor.execute(() -> {
-                finalList.forEach(x -> {
-                    Password entity = new Password();
-                    entity.setId(x.getId());
-                    entity.setIndex(x.getIndex() + 1);
-                    service.update(entity);
-                });
+                service.updateList(finalList);
                 log.info("线程执行完毕");
             });
         }
@@ -79,7 +81,7 @@ public class PasswordController {
     }
 
     @RequestMapping("/insertPassword")
-    public Map<String, Object> insertPassword(@RequestBody Password password) {
+    public Map<String, Object> insertPassword(@RequestBody @Validated(Password.Save.class) Password password) {
         Map<String, Object> map = new HashMap<>(16);
         password.setCreateTime(new Date());
         password.setUpdateTime(new Date());
@@ -96,7 +98,7 @@ public class PasswordController {
     }
 
     @RequestMapping("/updatePassword")
-    public Map<String, Object> updatePassword(@RequestBody Password password) {
+    public Map<String, Object> updatePassword(@RequestBody @Validated(Password.Update.class) Password password) {
         Map<String, Object> map = new HashMap<>(16);
         password.setUpdateTime(new Date());
         password.setPassword(encode(password.getPassword()));
@@ -163,4 +165,5 @@ public class PasswordController {
         }
         return ip;
     }
+
 }

@@ -1,2 +1,2 @@
 @echo off
-START "app" javaw -jar ./target/mapstudy-0.0.1-SNAPSHOT.jar
+START "app" javaw -jar mapstudy-0.0.1-SNAPSHOT.jar

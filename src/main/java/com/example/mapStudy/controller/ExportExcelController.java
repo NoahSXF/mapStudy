@@ -1,6 +1,6 @@
 package com.example.mapStudy.controller;
 
-import com.example.mapStudy.bean.Demo;
+import com.example.mapStudy.entity.Demo;
 import com.example.mapStudy.utils.WordUtil;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;

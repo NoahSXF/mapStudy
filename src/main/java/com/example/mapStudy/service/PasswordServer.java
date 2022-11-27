@@ -1,7 +1,9 @@
 package com.example.mapStudy.service;
 
-import com.example.mapStudy.bean.Password;
+import com.example.mapStudy.entity.Password;
 import com.github.pagehelper.PageInfo;
+
+import java.util.List;
 
 /**
  * @BelongsProject: mapStudy
@@ -19,4 +21,8 @@ public interface PasswordServer {
     PageInfo<Password> selectByPassword(Password password, Integer pageNum, Integer pageSize);
 
     int update(Password password);
+
+    public int update(List<Password> list);
+
+    public int updateList(List<Password> list);
 }

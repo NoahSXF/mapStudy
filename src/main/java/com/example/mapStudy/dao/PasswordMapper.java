@@ -1,7 +1,8 @@
-package com.example.mapStudy.mapper;
+package com.example.mapStudy.dao;
 
-import com.example.mapStudy.bean.Password;
+import com.example.mapStudy.entity.Password;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface PasswordMapper {
     List<Password> selectByPassword(Password password);
 
     int update(Password password);
+
+    int updateList(@Param("list") List<Password> list);
 }

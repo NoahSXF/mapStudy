@@ -1,4 +1,4 @@
-package com.example.mapStudy.bean;
+package com.example.mapStudy.entity;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

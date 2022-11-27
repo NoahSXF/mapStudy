@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapStudy.mapper.IpMapper">
-    <resultMap id="BaseResultMap" type="com.example.mapStudy.bean.Ip">
+<mapper namespace="com.example.mapStudy.dao.IpMapper">
+    <resultMap id="BaseResultMap" type="com.example.mapStudy.entity.Ip">
         <result column="ip" jdbcType="VARCHAR" property="ip"/>
     </resultMap>
-    <insert id="insert" parameterType="com.example.mapStudy.bean.Ip">
+    <insert id="insert" parameterType="com.example.mapStudy.entity.Ip">
         insert into ip (ip)
         values (#{ip,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.example.mapStudy.bean.Ip">
+    <insert id="insertSelective" parameterType="com.example.mapStudy.entity.Ip">
         insert into ip
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ip != null">

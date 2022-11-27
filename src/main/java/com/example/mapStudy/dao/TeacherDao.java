@@ -1,7 +1,7 @@
-package com.example.mapStudy.mapper;
+package com.example.mapStudy.dao;
 
-import com.example.mapStudy.bean.Teacher;
-import com.example.mapStudy.bean.TeacherExample;
+import com.example.mapStudy.entity.Teacher;
+import com.example.mapStudy.entity.TeacherExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

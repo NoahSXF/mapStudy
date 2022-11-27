@@ -1,7 +1,7 @@
-package com.example.mapStudy.mapper;
+package com.example.mapStudy.dao;
 
-import com.example.mapStudy.bean.Person;
-import com.example.mapStudy.bean.PersonExample;
+import com.example.mapStudy.entity.Person;
+import com.example.mapStudy.entity.PersonExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

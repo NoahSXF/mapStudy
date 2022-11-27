@@ -1,10 +1,9 @@
 package com.example.mapStudy.service;
 
 import com.alibaba.fastjson.JSON;
-import com.example.mapStudy.bean.Dog;
+import com.example.mapStudy.entity.Dog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,15 +1,18 @@
 package com.example.mapStudy.service.impl;
 
-import com.example.mapStudy.bean.Password;
-import com.example.mapStudy.mapper.PasswordMapper;
+import com.example.mapStudy.dao.PasswordMapper;
+import com.example.mapStudy.entity.Password;
 import com.example.mapStudy.service.PasswordServer;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +42,7 @@ public class PasswordServerImpl implements PasswordServer {
 
     @Override
     public PageInfo<Password> selectByPassword(Password password, Integer pageNum, Integer pageSize) {
-        Page<Object> objects = PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<Password> passwords = mapper.selectByPassword(password);
         return new PageInfo<>(passwords);
     }
@@ -47,5 +50,28 @@ public class PasswordServerImpl implements PasswordServer {
     @Override
     public int update(Password password) {
         return mapper.update(password);
+    }
+
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED, rollbackFor = TransactionException.class)
+    public int update(List<Password> list) {
+        list.forEach(x -> {
+            Password entity = new Password();
+            entity.setId(x.getId());
+            entity.setIndex(x.getIndex() + 1);
+            update(entity);
+        });
+        int i = updateList(list);
+        return 1;
+    }
+
+    public int updateList(List<Password> list) {
+        List<Password> arrayList = new ArrayList<>(16);
+        list.forEach(x -> {
+            Password entity = new Password();
+            entity.setId(x.getId());
+            entity.setIndex(x.getIndex() + 1);
+            arrayList.add(entity);
+        });
+        return mapper.updateList(arrayList);
     }
 }

@@ -97,7 +97,8 @@ public class WordUtil {
      * @param str 字符串
      */
     private static Matcher matcher(String str) {
-        Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}", Pattern.CASE_INSENSITIVE);
+        String regex = "\\$\\{(.+?)";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         return pattern.matcher(str);
     }
 

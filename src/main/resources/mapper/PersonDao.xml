@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapStudy.mapper.PersonDao">
-    <resultMap id="BaseResultMap" type="com.example.mapStudy.bean.Person">
+<mapper namespace="com.example.mapStudy.dao.PersonDao">
+    <resultMap id="BaseResultMap" type="com.example.mapStudy.entity.Person">
         <result column="person_name" jdbcType="VARCHAR" property="name"/>
         <result column="person_age" jdbcType="VARCHAR" property="age"/>
     </resultMap>
@@ -68,7 +68,7 @@
     <sql id="Base_Column_List">
         person.`name` as `person_name`, person.age as person_age
     </sql>
-    <select id="selectByExample" parameterType="com.example.mapStudy.bean.PersonExample" resultMap="BaseResultMap">
+    <select id="selectByExample" parameterType="com.example.mapStudy.entity.PersonExample" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
@@ -93,17 +93,17 @@
             for update
         </if>
     </select>
-    <delete id="deleteByExample" parameterType="com.example.mapStudy.bean.PersonExample">
+    <delete id="deleteByExample" parameterType="com.example.mapStudy.entity.PersonExample">
         delete from person person
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.example.mapStudy.bean.Person">
+    <insert id="insert" parameterType="com.example.mapStudy.entity.Person">
         insert into person (`name`, age)
         values (#{name,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.example.mapStudy.bean.Person">
+    <insert id="insertSelective" parameterType="com.example.mapStudy.entity.Person">
         insert into person
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">
@@ -122,7 +122,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.example.mapStudy.bean.PersonExample" resultType="java.lang.Long">
+    <select id="countByExample" parameterType="com.example.mapStudy.entity.PersonExample" resultType="java.lang.Long">
         select count(*) from person person
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>

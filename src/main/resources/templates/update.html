@@ -49,7 +49,7 @@
             </li>
             <li style="display: none">
                 <label for="id">id：</label>
-                <input id="id" name="id" type="id" placeholder="sxf or map" required value="sxf">
+                <input id="id" name="id" type="id" required value="sxf">
             </li>
             <li style="display: none">
                 <label for="index">id：</label>
@@ -70,7 +70,7 @@
 </form>
 
 <script>
-
+    let arr = document.getElementsByTagName("label");
     $.ajaxSetup({
         accept: "application/json",
         contentType: "application/json"
@@ -80,7 +80,7 @@
         let data = JSON.stringify(passwordForm);
         console.log(data)
         $.post(
-            "http://" + ip + port + "/updatePassword",
+            "http://" + ip + ":" + port + "/updatePassword",
             data, function (data) {
                 if (data.result) {
                     Swal.fire(
@@ -98,7 +98,22 @@
                         'error'
                     )
                 }
-            }, "json")
+            }, "json").fail(function (data) {
+            if (data.status === 400) {
+                let result = data.responseJSON
+                for (let i = 0; i < arr.length; i++) {
+                    let forValue = arr[i].getAttributeNode("for").value;
+                    if (forValue === result.errors[0].field) {
+                        Swal.fire(
+                            '新增失败!',
+                            arr[i].innerHTML + result.errors[0].defaultMessage,
+                            'error'
+                        )
+                    }
+                }
+
+            }
+        })
     });
 
     $(function () {

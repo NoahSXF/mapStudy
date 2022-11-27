@@ -14,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @return: null
  */
 @SpringBootApplication
-@MapperScan("com.example.mapStudy.mapper")
+@MapperScan("com.example.mapStudy.dao")
 @EnableScheduling
 public class MapStudyApplication {
 

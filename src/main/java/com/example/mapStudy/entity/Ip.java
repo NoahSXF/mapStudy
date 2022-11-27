@@ -1,4 +1,4 @@
-package com.example.mapStudy.bean;
+package com.example.mapStudy.entity;
 
 import lombok.Data;
 
@@ -18,9 +18,15 @@ public class Ip implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (this.ip.equals(o)) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (this.ip.equals(o)) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Ip ip1 = (Ip) o;
         return Objects.equals(ip, ip1.ip);
     }

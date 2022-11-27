@@ -2,8 +2,8 @@ package com.example.mapStudy.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.example.mapStudy.bean.Car;
-import com.example.mapStudy.bean.Dog;
+import com.example.mapStudy.entity.Car;
+import com.example.mapStudy.entity.Dog;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;

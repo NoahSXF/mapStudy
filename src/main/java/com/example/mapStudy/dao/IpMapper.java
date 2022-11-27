@@ -1,6 +1,6 @@
-package com.example.mapStudy.mapper;
+package com.example.mapStudy.dao;
 
-import com.example.mapStudy.bean.Ip;
+import com.example.mapStudy.entity.Ip;
 
 import java.util.List;
 

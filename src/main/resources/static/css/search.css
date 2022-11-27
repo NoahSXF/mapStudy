@@ -23,7 +23,7 @@ body {
     align-items: center;
     transition: 0.5s;
     top: -300px;
-    left: -350px;
+    left: -250px;
 }
 
 .searchBox:hover {

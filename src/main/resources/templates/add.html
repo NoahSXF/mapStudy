@@ -70,9 +70,8 @@
     $('#btn').click(function () {
         let passwordForm = $('#passwordForm').serializeObject();
         let data = JSON.stringify(passwordForm);
-        console.log(data)
         $.post(
-            "http://" + ip + port + "/insertPassword",
+            "http://" + ip + ":" + port + "/insertPassword",
             data, function (data) {
                 if (data.result) {
                     Swal.fire(
@@ -90,7 +89,22 @@
                         'error'
                     )
                 }
-            }, "json")
+            }, "json").fail(function (data) {
+            if (data.status === 400) {
+                let result = data.responseJSON
+                for (let i = 0; i < arr.length; i++) {
+                    let forValue = arr[i].getAttributeNode("for").value;
+                    if (forValue === result.errors[0].field) {
+                        Swal.fire(
+                            '新增失败!',
+                            arr[i].innerHTML + result.errors[0].defaultMessage,
+                            'error'
+                        )
+                    }
+                }
+
+            }
+        })
     });
 </script>
 

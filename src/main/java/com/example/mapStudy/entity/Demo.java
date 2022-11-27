@@ -1,4 +1,4 @@
-package com.example.mapStudy.bean;
+package com.example.mapStudy.entity;
 
 import lombok.Data;
 

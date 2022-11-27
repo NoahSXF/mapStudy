@@ -1,6 +1,6 @@
 package com.example.mapStudy;
 
-import com.example.mapStudy.bean.Person;
+import com.example.mapStudy.entity.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
