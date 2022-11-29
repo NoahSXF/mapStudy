@@ -17,4 +17,6 @@ public interface PasswordMapper {
     int update(Password password);
 
     int updateList(@Param("list") List<Password> list);
+
+    List<String> selectByString();
 }

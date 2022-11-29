@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import javax.annotation.Resource;
+
 /**
  * 主线程
  * 开启定时调度 -> @EnableScheduling
@@ -16,6 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @MapperScan("com.example.mapStudy.dao")
 @EnableScheduling
+@Resource()
 public class MapStudyApplication {
 
     public static void main(String[] args) {

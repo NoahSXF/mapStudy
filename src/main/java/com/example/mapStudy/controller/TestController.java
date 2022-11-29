@@ -1,5 +1,6 @@
 package com.example.mapStudy.controller;
 
+import com.example.mapStudy.dao.PasswordMapper;
 import com.example.mapStudy.dao.PersonDao;
 import com.example.mapStudy.dao.TeacherDao;
 import com.example.mapStudy.entity.*;
@@ -28,6 +29,9 @@ import java.util.Map;
 public class TestController {
     @Resource
     private PersonDao personDao;
+
+    @Resource
+    private PasswordMapper passwordMapper;
 
     @Resource
     private TeacherDao teacherDao;
@@ -111,5 +115,15 @@ public class TestController {
         Object o = redisTemplate.opsForValue().get("car");
         map.put("car", o);
         return map;
+    }
+
+    @GetMapping("/test1")
+    public void test1() {
+        List<String> maps = passwordMapper.selectByString();
+        System.out.println();
+        Password password = new Password();
+        password.setKey("bd");
+        List<Password> passwords = passwordMapper.selectByPassword(password);
+        System.out.println();
     }
 }

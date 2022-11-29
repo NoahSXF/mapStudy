@@ -6,6 +6,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * password
@@ -14,6 +16,7 @@ import java.util.Date;
  */
 @Data
 public class Password implements Serializable {
+    private List<Map> list;
     /**
      * 账号
      */
