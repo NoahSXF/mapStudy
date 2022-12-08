@@ -3,7 +3,9 @@ package com.example.mapStudy.entity;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -32,19 +34,21 @@ public class Password implements Serializable {
     /**
      * ip地址
      */
-    @Length(min = 0, max = 16, groups = {Save.class, Update.class})
+    @Length(max = 16, groups = {Save.class, Update.class})
     private String ip;
 
     /**
      * 端口号
      */
-    @Length(min = 0, max = 5, groups = {Save.class, Update.class})
+    @Length(max = 5, groups = {Save.class, Update.class})
     private String port;
 
     /**
      * 检索关键词
      */
     @Length(min = 0, max = 512, groups = {Save.class, Update.class})
+    @Pattern(regexp = "[1-9]")
+    @Email
     private String key;
 
     /**
