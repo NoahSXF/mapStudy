@@ -51,6 +51,7 @@ public class DirectRabbitConfig {
          * 1. 交换机名称
          * 2. 是否持久化 true：持久化，交换机一直保留 false：不持久化，用完就删除
          * 3. 是否自动删除 false：不自动删除 true：自动删除
+         * 4.学习切换分支
          */
         return new FanoutExchange(EXCHANGE_NAME, true, false);
     }
