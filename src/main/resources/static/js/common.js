@@ -1,3 +1,3 @@
-let ip = "192.168.1.19"
-// let port = "8080"
-let port = '8090'
+let ip = "127.0.0.1"
+let port = "8080"
+// let port = '8090'
